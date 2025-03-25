@@ -1,5 +1,6 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 import "./game.css";
 
 const turistaAudio = "/turistaAudio.mp3";
@@ -28,13 +29,16 @@ const Game = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if(gameState == "game"){
+      if (gameState == "game") {
         setDots((prevDots) =>
           prevDots.map((dot) =>
             dot.y > 600
-              ? { x: stringX[Math.floor(Math.random() * stringX.length)], y: Math.floor(Math.random() * 40) * -15 }
-              : { ...dot, y: dot.y + speed }
-          )
+              ? {
+                  x: stringX[Math.floor(Math.random() * stringX.length)],
+                  y: Math.floor(Math.random() * 40) * -15,
+                }
+              : { ...dot, y: dot.y + speed },
+          ),
         );
       }
     }, 40);
@@ -52,10 +56,13 @@ const Game = () => {
           ) {
             if (buttonNum <= 3) setScore1((prev) => prev + 0.5);
             else setScore2((prev) => prev + 0.5);
-            return { x: stringX[Math.floor(Math.random() * stringX.length)], y: Math.floor(Math.random() * 40) * -15 };
+            return {
+              x: stringX[Math.floor(Math.random() * stringX.length)],
+              y: Math.floor(Math.random() * 40) * -15,
+            };
           }
           return dot;
-        })
+        }),
       );
       const newButtonsAbleToHit = [...buttonsAbleToHit];
       newButtonsAbleToHit[buttonNum] = false;
@@ -64,7 +71,7 @@ const Game = () => {
   };
 
   const handleKeyDown = (event) => {
-    if(gameState == "start"){
+    if (gameState == "start") {
       setGameState("game");
       const audio = new Audio(turistaAudio2);
       audio.play();
@@ -101,16 +108,28 @@ const Game = () => {
     };
   }, [buttons, buttonsAbleToHit]);
 
-  if(gameState == "game"){
+  let highscore = Cookies.get("highscore");
+
+  if (gameState == "game") {
     return (
       <div className="game-container">
-        <h1>Score: {score1} - {score2}</h1>
+        <h1>
+          Score: {score1} - {score2}
+        </h1>
         <svg width="550" height="600" className="game-board">
           {stringX.map((x, i) => (
-            <line key={i} x1={x} y1={0} x2={x} y2={600} stroke="white" strokeWidth="3" />
+            <line
+              key={i}
+              x1={x}
+              y1={0}
+              x2={x}
+              y2={600}
+              stroke="white"
+              strokeWidth="3"
+            />
           ))}
           {dots.map((dot, i) => (
-            <circle key={i} cx={dot.x} cy={dot.y} r={15} fill="#E010D6" />
+            <circle key={i} cx={dot.x} cy={dot.y} r={15} />
           ))}
           {buttons.map((pressed, i) => (
             <rect
@@ -126,14 +145,18 @@ const Game = () => {
         </svg>
       </div>
     );
-  }
-  else if(gameState == "start"){
-    return(
+  } else if (gameState == "start") {
+    return (
       <div className="game-container" id="menu-container">
-        <div className="game-start-text">Turista Guitar Game</div>
-        <h1>Click any key to play!</h1>
+        <div id="highscore">
+          <p>{highscore ? "Highscore: " + highscore : ""}</p>
+        </div>
+        <div className="game-menu">
+          <div className="game-start-text">Turista Guitar Game</div>
+          <h1>Click any key to play!</h1>
+        </div>
       </div>
-    )
+    );
   }
 };
 

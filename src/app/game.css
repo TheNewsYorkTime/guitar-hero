@@ -1,3 +1,12 @@
+* {
+    box-sizing: border-box;
+}
+
+
+body {
+     margin: 0 !important;
+}
+
 .game-container {
     display: flex;
     flex-direction: column;
@@ -5,41 +14,54 @@
     background-color: black;
     color: white;
     height: 100vh;
-    justify-content: center;
-  }
+}
   
-  h1 {
+h1 {
     font-size: 24px;
     margin-bottom: 10px;
-  }
+}
   
-  .game-board {
+.game-board {
     background-color: black;
     border: 2px solid white;
-  }
-  
-  .game-start-text{
+}
+ 
+.game-menu {
+    display: flex;
+    flex-direction: column;
+    height: 50%;
+    align-items: center; 
+}
+
+.game-start-text {
     font-size: 40px;
     margin-bottom: 10px;
-    font-style:italic;
-  }
+    font-style: italic;
+}
 
-  line {
+line {
     stroke: white;
     stroke-width: 3px;
-  }
+}
   
-  circle {
+circle {
+    fill: #9fbd33;
     transition: transform 0.05s linear;
-  }
+}
   
-  rect {
+rect {
     stroke: black;
     stroke-width: 2px;
-  }
+}
 
-  #menu-container {
+#menu-container {
     background: url("/splash.png");
     background-position: center;
     background-size: cover;
-    }
+}
+
+#highscore {
+    display: flex;
+    height: 50%;
+    justify-content: center;
+}
