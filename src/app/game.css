@@ -1,0 +1,40 @@
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: black;
+    color: white;
+    height: 100vh;
+    justify-content: center;
+  }
+  
+  h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .game-board {
+    background-color: black;
+    border: 2px solid white;
+  }
+  
+  .game-start-text{
+    font-size: 40px;
+    margin-bottom: 10px;
+    font-style:italic;
+  }
+
+  line {
+    stroke: white;
+    stroke-width: 3px;
+  }
+  
+  circle {
+    transition: transform 0.05s linear;
+  }
+  
+  rect {
+    stroke: black;
+    stroke-width: 2px;
+  }
+  
