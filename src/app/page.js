@@ -129,7 +129,7 @@ const Game = () => {
   }
   else if(gameState == "start"){
     return(
-      <div className="game-container">
+      <div className="game-container" id="menu-container">
         <div className="game-start-text">Turista Guitar Game</div>
         <h1>Click any key to play!</h1>
       </div>
