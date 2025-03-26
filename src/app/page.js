@@ -137,7 +137,7 @@ const Game = () => {
       return;
     }
 
-    if (gameState == "winScreen") {
+    if (gameState == "winScreen" && event.key === " ") {
       setScore1(0);
       setScore2(0);
       setGameState("start");
