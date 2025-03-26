@@ -16,9 +16,10 @@ const Game = () => {
   const [score1, setScore1] = useState(0);
   const [score2, setScore2] = useState(0);
   const [gameState, setGameState] = useState("start");
+  const [audioPlaying, setAudioPlaying] = useState(false);
   const buttonsY = 480;
   const audioRef = useRef(null);
-  const scoreGetNote = 1, scoreMissNote = -1, scoreNotePass = -1;
+  const scoreGetNote = 5, scoreMissNote = -1, scoreNotePass = -1;
 
   useEffect(() => {
     const initialDots = Array.from({ length: numDots }, () => {
@@ -86,11 +87,13 @@ const Game = () => {
   };
 
   const handleKeyDown = (event) => {
-    if(gameState == "start"){
+    if(gameState == "start" && !audioPlaying){
       setGameState("game");
+      setAudioPlaying(true);
       audioRef.current = new Audio(turistaAudio2);
       audioRef.current.play();
     }
+    
     if(gameState == "winScreen"){
       setGameState("start");
     }
@@ -175,9 +178,14 @@ const Game = () => {
     )
   }
   else if(gameState == "winScreen"){
-    return(
+    const winner = score1 > score2 ? "Player 1" : 
+                score2 > score1 ? "Player 2" : 
+                "It's a tie!";
+    return (
       <div className="game-container">
-        <h1>Score: {score1} - {score2}</h1>
+        <h1>Final Score: {score1} : {score2}</h1>
+        <div className="winner-text">{winner} won!</div>
+        <div className="restart-instruction">Press any key to restart</div>
       </div>
     );
   }
