@@ -231,9 +231,9 @@ const Game = () => {
     Cookies.set("highscore", highscore);
     const winner =
       score1 > score2
-        ? "Player 1"
+        ? "Jugador(a) 1"
         : score2 > score1
-          ? "Player 2"
+          ? "Jugador(a) 2"
           : "It's a tie!";
     return (
       <div className="game-container">
