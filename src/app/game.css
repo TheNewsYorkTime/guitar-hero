@@ -37,4 +37,9 @@
     stroke: black;
     stroke-width: 2px;
   }
-  
+
+  #menu-container {
+    background: url("/splash.png");
+    background-position: center;
+    background-size: cover;
+    }
