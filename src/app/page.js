@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./game.css";
 import chordArray from "./chords.js";
-const turistaAudio4sec = "/turistaAudio4sec.mp3";
+const turistaAudio4sec = "/turistaAudio4Sec.mp3";
 const turistaAudio2 = "/turistaAudio2.mp3";
 
 const stringX = [50, 100, 150, 200, 350, 400, 450, 500];
@@ -139,6 +139,7 @@ const Game = () => {
       setDots([]);
       return;
     }
+
     const keyMap = { q: 0, w: 1, e: 2, r: 3, u: 4, i: 5, o: 6, p: 7 };
     if (keyMap[event.key] !== undefined && gameState == "game") {
       const buttonPressed = keyMap[event.key];
