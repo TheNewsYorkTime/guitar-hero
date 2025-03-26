@@ -56,7 +56,7 @@ const Game = () => {
 
       currentNote = (currentNote + 1) % chordArray.length; // Loop through chords
     }, 462);
-  
+
     return () => clearInterval(interval);
   }, [gameState, chordArray]);
 
@@ -226,6 +226,8 @@ const Game = () => {
       </div>
     );
   } else if (gameState == "winScreen") {
+    let highscore = score1 > score2 ? score1 : score2;
+    Cookies.set("highscore", highscore);
     const winner =
       score1 > score2
         ? "Player 1"
