@@ -1,5 +1,5 @@
 const chordArray = [
-    [false,false,false,false], // 0
+    [false,false,false,true], // 0
     [true,true,false,false],
     [true,true,false,false],
     [true,true,false,false],

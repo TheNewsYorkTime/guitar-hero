@@ -3,11 +3,11 @@ import React, { useState, useEffect, useRef } from "react";
 import Cookies from "js-cookie";
 import "./game.css";
 import chordArray from "./chords.js";
-const turistaAudio = "/turistaAudio.mp3";
+const turistaAudio4sec = "/turistaAudio4sec.mp3";
 const turistaAudio2 = "/turistaAudio2.mp3";
 
 const stringX = [50, 100, 150, 200, 350, 400, 450, 500];
-const speed = 4;
+const speed = 4.2;
 
 const Game = () => {
   const [buttons, setButtons] = useState(Array(8).fill(false));
@@ -55,8 +55,8 @@ const Game = () => {
       });
 
       currentNote = (currentNote + 1) % chordArray.length; // Loop through chords
-    }, 500);
-
+    }, 462);
+  
     return () => clearInterval(interval);
   }, [gameState, chordArray]);
 
@@ -126,7 +126,7 @@ const Game = () => {
     if (gameState == "start" && !audioPlaying) {
       setGameState("game");
       setAudioPlaying(true);
-      audioRef.current = new Audio(turistaAudio2);
+      audioRef.current = new Audio(turistaAudio4sec);
       audioRef.current.play();
 
       audioRef.current.addEventListener("ended", () => {
