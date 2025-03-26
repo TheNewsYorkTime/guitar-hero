@@ -218,7 +218,7 @@ const Game = () => {
     return (
       <div className="game-container" id="menu-container">
         <div id="highscore">
-          <p>{highscore ? "Highscore: " + highscore : ""}</p>
+          <p>{highscore ? "El resultado más alto: " + highscore : ""}</p>
         </div>
         <div className="game-menu">
           <div className="game-start-text">Turista: El Juego de Guitarra</div>
@@ -238,7 +238,7 @@ const Game = () => {
     return (
       <div className="game-container">
         <h1>
-          Resultado final: {score1} : {score2}
+          El resultado final: {score1} : {score2}
         </h1>
         <div className="winner-text">¡{winner} ha ganado!</div>
         <div className="restart-instruction">
