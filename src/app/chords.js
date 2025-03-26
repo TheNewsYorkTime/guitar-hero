@@ -119,6 +119,16 @@ const chordArray = [
     [true,true,false,false],
     [true,true,false,false],
 
+    [false,false,false,false], // 23
+    [false,false,false,false],
+    [false,false,false,false],
+    [false,false,false,false],
+
+    [false,false,false,false],// 23
+    [false,false,false,false],
+    [false,false,false,false],
+    [false,false,false,false],
+
     [false,false,false,true], // 24
     [true,true,false,false],
     [true,true,false,false],
