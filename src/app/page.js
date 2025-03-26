@@ -1,12 +1,11 @@
 "use client"
 import React, { useState, useEffect, useRef } from "react";
 import "./game.css";
-
+import chordArray from "./chords.js";
 const turistaAudio = "/turistaAudio.mp3";
 const turistaAudio2 = "/turistaAudio2.mp3";
 
 const stringX = [50, 100, 150, 200, 350, 400, 450, 500];
-const numDots = 20;
 const speed = 4;
 
 const Game = () => {
@@ -21,40 +20,67 @@ const Game = () => {
   const audioRef = useRef(null);
   const scoreGetNote = 5, scoreMissNote = -1, scoreNotePass = -1;
 
-  const generateInitialDots = () => {
-    return Array.from({ length: numDots }, () => ({
-      x: stringX[Math.floor(Math.random() * stringX.length)],
-      y: Math.floor(Math.random() * 40) * -15
-    }));
-  };
-
   useEffect(() => {
-    setDots(generateInitialDots());
-  }, []);
+    if (gameState !== "game") return;
+  
+    let currentNote = 0;
+    const interval = setInterval(() => {
+      setDots(prevDots => {
+        const newDots = [...prevDots];
+        
+        // Add notes for first 4 strings (player 1)
+        for (let i = 0; i < 4; i++) {
+          if (chordArray[currentNote][i]) {
+            newDots.push({
+              x: stringX[i],
+              y: -100
+            });
+          }
+        }
+        
+        // Add notes for next 4 strings (player 2)
+        for (let i = 0; i < 4; i++) {
+          if (chordArray[currentNote][i]) {
+            newDots.push({
+              x: stringX[i + 4],
+              y: -100
+            });
+          }
+        }
+        
+        return newDots;
+      });
+  
+      currentNote = (currentNote + 1) % chordArray.length; // Loop through chords
+    }, 500);
+  
+    return () => clearInterval(interval);
+  }, [gameState, chordArray]);
 
   useEffect(() => {
     const interval = setInterval(() => {
       if(gameState == "game"){
-        setDots((prevDots) =>
-          prevDots.map((dot) => {
+        setDots((prevDots) => {
+          prevDots.forEach(dot => {
             if (dot.y > 600) {
-              for(let i = 0; i < 7; i++){
-                if(dot.x == stringX[i] && (i <= 3)){
-                  setScore1((prev) => prev + scoreNotePass);
+              for (let i = 0; i < 7; i++) {
+                if (dot.x === stringX[i] && (i <= 3)) {
+                  setScore1(prev => prev + scoreNotePass);
                 }
-                if(dot.x == stringX[i] && (i >= 4)){
-                  setScore2((prev) => prev + scoreNotePass);
+                if (dot.x === stringX[i] && (i >= 4)) {
+                  setScore2(prev => prev + scoreNotePass);
                 }
               }
-              return { 
-                x: stringX[Math.floor(Math.random() * stringX.length)], 
-                y: Math.floor(Math.random() * 40) * -15 
-              };
-            } else {
-              return { ...dot, y: dot.y + speed };
             }
-          })
-        );
+          });
+          return prevDots
+            .filter(dot => dot.y <= 600)
+            .map(dot => ({
+              ...dot,
+              y: dot.y + speed
+            }));
+        });
+        
       }
     }, 40);
     return () => clearInterval(interval);
@@ -109,8 +135,8 @@ const Game = () => {
     if(gameState == "winScreen"){
       setScore1(0);
       setScore2(0);
-      setDots(generateInitialDots());
       setGameState("start");
+      setDots([]);
       return;
     }
     const keyMap = { q: 0, w: 1, e: 2, r: 3, u: 4, i: 5, o: 6, p: 7 };
