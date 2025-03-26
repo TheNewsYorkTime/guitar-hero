@@ -1,3 +1,12 @@
+* {
+    box-sizing: border-box;
+}
+
+
+body {
+     margin: 0 !important;
+}
+
 .game-container {
     display: flex;
     flex-direction: column;
@@ -5,41 +14,78 @@
     background-color: black;
     color: white;
     height: 100vh;
-    justify-content: center;
-  }
+}
   
-  h1 {
+h1 {
     font-size: 24px;
     margin-bottom: 10px;
-  }
+}
+
+h2 {
+    font-size: 35px;
+    margin-bottom: 10px;
+    color: rgb(255, 255, 255);
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
   
-  .game-board {
+.game-board {
     background-color: black;
     border: 2px solid white;
-  }
-  
-  .game-start-text{
-    font-size: 40px;
-    margin-bottom: 10px;
-    font-style:italic;
-  }
+}
+ 
+.game-menu {
+    display: flex;
+    flex-direction: column;
+    height: 50%;
+    align-items: center; 
+}
 
-  line {
+  
+.winner-text {
+    font-size: 20px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    color: rgb(255, 255, 255);
+}
+
+.restart-instruction {
+    font-size: 20px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    color: rgb(255, 255, 255);
+    
+}
+
+.game-start-text {
+    font-size: 70px;
+    margin-bottom: 40px;
+    font-style:italic;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+line {
     stroke: white;
     stroke-width: 3px;
-  }
+}
   
-  circle {
+circle {
+    fill: #9fbd33;
     transition: transform 0.05s linear;
-  }
+}
   
-  rect {
+rect {
     stroke: black;
     stroke-width: 2px;
-  }
+}
 
-  #menu-container {
+#menu-container {
     background: url("/splash.png");
     background-position: center;
     background-size: cover;
-    }
+}
+
+#highscore {
+    display: flex;
+    height: 50%;
+    justify-content: center;
+}
