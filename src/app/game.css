@@ -86,6 +86,11 @@ rect {
 
 #highscore {
     display: flex;
-    height: 50%;
+    height: 30%;
     justify-content: center;
+}
+
+#highscore p {
+    font-size: 2rem;
+    color: yellow;
 }
