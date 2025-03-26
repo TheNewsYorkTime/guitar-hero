@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Cookies from "js-cookie";
 import "./game.css";
 import chordArray from "./chords.js";
-const turistaAudio4sec = "/turistaAudio4sec.mp3";
+const turistaAudio4sec = "/turistaAudio4Sec.mp3";
 const turistaAudio2 = "/turistaAudio2.mp3";
 
 const stringX = [50, 100, 150, 200, 350, 400, 450, 500];
@@ -242,7 +242,7 @@ const Game = () => {
         </h1>
         <div className="winner-text">¡{winner} ha ganado!</div>
         <div className="restart-instruction">
-          Haga clic en cualquier tecla(key) para jugar de nuevo
+          Haga clic en la tecla(key) de espacio para jugar de nuevo
         </div>
       </div>
     );
