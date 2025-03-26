@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./game.css";
 
 const turistaAudio = "/turistaAudio.mp3";
@@ -17,6 +17,8 @@ const Game = () => {
   const [score2, setScore2] = useState(0);
   const [gameState, setGameState] = useState("start");
   const buttonsY = 480;
+  const audioRef = useRef(null);
+  const scoreGetNote = 1, scoreMissNote = -1, scoreNotePass = -1;
 
   useEffect(() => {
     const initialDots = Array.from({ length: numDots }, () => {
@@ -30,11 +32,24 @@ const Game = () => {
     const interval = setInterval(() => {
       if(gameState == "game"){
         setDots((prevDots) =>
-          prevDots.map((dot) =>
-            dot.y > 600
-              ? { x: stringX[Math.floor(Math.random() * stringX.length)], y: Math.floor(Math.random() * 40) * -15 }
-              : { ...dot, y: dot.y + speed }
-          )
+          prevDots.map((dot) => {
+            if (dot.y > 600) {
+              for(let i = 0; i < 7; i++){
+                if(dot.x == stringX[i] && (i <= 3)){
+                  setScore1((prev) => prev + scoreNotePass);
+                }
+                if(dot.x == stringX[i] && (i >= 4)){
+                  setScore2((prev) => prev + scoreNotePass);
+                }
+              }
+              return { 
+                x: stringX[Math.floor(Math.random() * stringX.length)], 
+                y: Math.floor(Math.random() * 40) * -15 
+              };
+            } else {
+              return { ...dot, y: dot.y + speed };
+            }
+          })
         );
       }
     }, 40);
@@ -43,6 +58,7 @@ const Game = () => {
 
   const checkForHit = (buttonNum) => {
     if (buttonsAbleToHit[buttonNum]) {
+      let hit = false;
       setDots((prevDots) =>
         prevDots.map((dot) => {
           if (
@@ -50,13 +66,19 @@ const Game = () => {
             dot.y > buttonsY - 30 &&
             dot.y < buttonsY + 30
           ) {
-            if (buttonNum <= 3) setScore1((prev) => prev + 0.5);
-            else setScore2((prev) => prev + 0.5);
+            hit = true;
+            if (buttonNum <= 3) setScore1((prev) => prev + scoreGetNote);
+            else setScore2((prev) => prev + scoreGetNote);
             return { x: stringX[Math.floor(Math.random() * stringX.length)], y: Math.floor(Math.random() * 40) * -15 };
           }
+          
           return dot;
         })
       );
+      if(!hit){
+        if (buttonNum <= 3) setScore1((prev) => prev + scoreMissNote);
+        else setScore2((prev) => prev + scoreMissNote);
+      }
       const newButtonsAbleToHit = [...buttonsAbleToHit];
       newButtonsAbleToHit[buttonNum] = false;
       setButtonsAbleToHit(newButtonsAbleToHit);
@@ -66,11 +88,14 @@ const Game = () => {
   const handleKeyDown = (event) => {
     if(gameState == "start"){
       setGameState("game");
-      const audio = new Audio(turistaAudio2);
-      audio.play();
+      audioRef.current = new Audio(turistaAudio2);
+      audioRef.current.play();
+    }
+    if(gameState == "winScreen"){
+      setGameState("start");
     }
     const keyMap = { q: 0, w: 1, e: 2, r: 3, u: 4, i: 5, o: 6, p: 7 };
-    if (keyMap[event.key] !== undefined) {
+    if (keyMap[event.key] !== undefined && gameState == "game") {
       const buttonPressed = keyMap[event.key];
       const newButtons = [...buttons];
       newButtons[buttonPressed] = true;
@@ -79,6 +104,20 @@ const Game = () => {
     }
   };
 
+  useEffect(() => {
+    const currentAudio = audioRef.current;
+    if (currentAudio) {
+      const handleEnded = () => {
+        setGameState("winScreen");
+      };
+      currentAudio.addEventListener("ended", handleEnded);
+  
+      return () => {
+        currentAudio.removeEventListener("ended", handleEnded);
+      };
+    }
+  }, [audioRef.current]); 
+  
   const handleKeyUp = (event) => {
     const keyMap = { q: 0, w: 1, e: 2, r: 3, u: 4, i: 5, o: 6, p: 7 };
     if (keyMap[event.key] !== undefined) {
@@ -130,10 +169,17 @@ const Game = () => {
   else if(gameState == "start"){
     return(
       <div className="game-container" id="menu-container">
-        <div className="game-start-text">Turista Guitar Game</div>
-        <h1>Click any key to play!</h1>
+        <div className="game-start-text">Turista: El Juego de Guitarra</div>
+        <h2>¡Haga clic en cualquier tecla(key) para continuar!</h2>
       </div>
     )
+  }
+  else if(gameState == "winScreen"){
+    return(
+      <div className="game-container">
+        <h1>Score: {score1} - {score2}</h1>
+      </div>
+    );
   }
 };
 
