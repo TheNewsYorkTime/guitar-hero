@@ -21,12 +21,15 @@ const Game = () => {
   const audioRef = useRef(null);
   const scoreGetNote = 5, scoreMissNote = -1, scoreNotePass = -1;
 
+  const generateInitialDots = () => {
+    return Array.from({ length: numDots }, () => ({
+      x: stringX[Math.floor(Math.random() * stringX.length)],
+      y: Math.floor(Math.random() * 40) * -15
+    }));
+  };
+
   useEffect(() => {
-    const initialDots = Array.from({ length: numDots }, () => {
-      const randIndex = Math.floor(Math.random() * stringX.length);
-      return { x: stringX[randIndex], y: Math.floor(Math.random() * 40) * -15 };
-    });
-    setDots(initialDots);
+    setDots(generateInitialDots());
   }, []);
 
   useEffect(() => {
@@ -87,15 +90,28 @@ const Game = () => {
   };
 
   const handleKeyDown = (event) => {
+    if(event.repeat) return;
+
     if(gameState == "start" && !audioPlaying){
       setGameState("game");
       setAudioPlaying(true);
       audioRef.current = new Audio(turistaAudio2);
       audioRef.current.play();
+
+      audioRef.current.addEventListener("ended", () => {
+        setGameState("winScreen");
+        setAudioPlaying(false);
+        audioRef.current = null;
+      });
+      return;
     }
     
     if(gameState == "winScreen"){
+      setScore1(0);
+      setScore2(0);
+      setDots(generateInitialDots());
       setGameState("start");
+      return;
     }
     const keyMap = { q: 0, w: 1, e: 2, r: 3, u: 4, i: 5, o: 6, p: 7 };
     if (keyMap[event.key] !== undefined && gameState == "game") {
@@ -107,19 +123,6 @@ const Game = () => {
     }
   };
 
-  useEffect(() => {
-    const currentAudio = audioRef.current;
-    if (currentAudio) {
-      const handleEnded = () => {
-        setGameState("winScreen");
-      };
-      currentAudio.addEventListener("ended", handleEnded);
-  
-      return () => {
-        currentAudio.removeEventListener("ended", handleEnded);
-      };
-    }
-  }, [audioRef.current]); 
   
   const handleKeyUp = (event) => {
     const keyMap = { q: 0, w: 1, e: 2, r: 3, u: 4, i: 5, o: 6, p: 7 };
@@ -141,12 +144,12 @@ const Game = () => {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, [buttons, buttonsAbleToHit]);
+  }, [buttons, buttonsAbleToHit, gameState, audioPlaying]);
 
   if(gameState == "game"){
     return (
       <div className="game-container">
-        <h1>Score: {score1} - {score2}</h1>
+        <h1>Score: {score1} : {score2}</h1>
         <svg width="550" height="600" className="game-board">
           {stringX.map((x, i) => (
             <line key={i} x1={x} y1={0} x2={x} y2={600} stroke="white" strokeWidth="3" />
@@ -183,9 +186,9 @@ const Game = () => {
                 "It's a tie!";
     return (
       <div className="game-container">
-        <h1>Final Score: {score1} : {score2}</h1>
-        <div className="winner-text">{winner} won!</div>
-        <div className="restart-instruction">Press any key to restart</div>
+        <h1>Resultado final: {score1} : {score2}</h1>
+        <div className="winner-text">¡{winner} ha ganado!</div>
+        <div className="restart-instruction">Haga clic en cualquier tecla(key) para jugar de nuevo</div>
       </div>
     );
   }
