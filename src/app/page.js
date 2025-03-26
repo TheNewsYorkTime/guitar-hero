@@ -242,7 +242,7 @@ const Game = () => {
         </h1>
         <div className="winner-text">¡{winner} ha ganado!</div>
         <div className="restart-instruction">
-          Haga clic en cualquier tecla(key) para jugar de nuevo
+          Haga clic en la tecla(key) de espacio para jugar de nuevo
         </div>
       </div>
     );
