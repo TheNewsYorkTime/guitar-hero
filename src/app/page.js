@@ -218,7 +218,7 @@ const Game = () => {
     return (
       <div className="game-container" id="menu-container">
         <div id="highscore">
-          <p>{highscore ? "Highscore: " + highscore : ""}</p>
+          <p>{highscore ? "El resultado más alto: " + highscore : ""}</p>
         </div>
         <div className="game-menu">
           <div className="game-start-text">Turista: El Juego de Guitarra</div>
@@ -231,18 +231,18 @@ const Game = () => {
     Cookies.set("highscore", highscore);
     const winner =
       score1 > score2
-        ? "Player 1"
+        ? "Jugador(a) 1"
         : score2 > score1
-          ? "Player 2"
+          ? "Jugador(a) 2"
           : "It's a tie!";
     return (
       <div className="game-container">
         <h1>
-          Resultado final: {score1} : {score2}
+          El resultado final: {score1} : {score2}
         </h1>
         <div className="winner-text">¡{winner} ha ganado!</div>
         <div className="restart-instruction">
-          Haga clic en la tecla(key) de espacio para jugar de nuevo
+          Haga clic en la tecla de espacio(space) para jugar de nuevo
         </div>
       </div>
     );
